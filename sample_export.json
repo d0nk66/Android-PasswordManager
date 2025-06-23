@@ -1,0 +1,20 @@
+{
+  "version": "1.0",
+  "exportTime": 1703123456789,
+  "passwords": [
+    {
+      "name": "示例网站",
+      "username": "user@example.com",
+      "password": "password123",
+      "note": "这是一个示例密码",
+      "createdAt": 1703123456789
+    },
+    {
+      "name": "另一个网站",
+      "username": "myusername",
+      "password": "mypassword456",
+      "note": "备注信息",
+      "createdAt": 1703123456790
+    }
+  ]
+}

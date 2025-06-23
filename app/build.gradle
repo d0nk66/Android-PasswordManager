@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id 'kotlin-kapt'
+    id 'org.jetbrains.kotlin.plugin.serialization'
 }
 
 android {
@@ -65,6 +66,9 @@ dependencies {
     
     // Pinyin4j for Chinese pinyin conversion
     implementation 'com.belerweb:pinyin4j:2.5.1'
+    
+    // Kotlinx Serialization for JSON handling
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0'
     
     testImplementation libs.junit
     androidTestImplementation libs.androidx.junit

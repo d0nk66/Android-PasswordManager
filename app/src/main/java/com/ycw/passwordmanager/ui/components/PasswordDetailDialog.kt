@@ -74,13 +74,13 @@ fun PasswordDetailDialog(
                 // 密码
                 DetailItem(
                     label = "密码",
-                    value = password.password,
+                    value = password.getDecryptedPassword(),
                     icon = Icons.Default.Lock,
                     isPassword = true,
                     passwordVisible = passwordVisible,
                     onTogglePasswordVisibility = { passwordVisible = !passwordVisible },
                     onCopy = {
-                        clipboardManager.setText(AnnotatedString(password.password))
+                        clipboardManager.setText(AnnotatedString(password.getDecryptedPassword()))
                     }
                 )
                 

@@ -20,11 +20,11 @@ import com.ycw.passwordmanager.data.PasswordEntity
 fun EditPasswordDialog(
     password: PasswordEntity,
     onDismiss: () -> Unit,
-    onConfirm: (PasswordEntity) -> Unit
+    onConfirm: (Long, String, String, String, String) -> Unit
 ) {
     var name by remember { mutableStateOf(password.name) }
     var username by remember { mutableStateOf(password.username) }
-    var passwordText by remember { mutableStateOf(password.password) }
+    var passwordText by remember { mutableStateOf(password.getDecryptedPassword()) }
     var note by remember { mutableStateOf(password.note) }
     var passwordVisible by remember { mutableStateOf(false) }
     
@@ -49,9 +49,10 @@ fun EditPasswordDialog(
                 OutlinedTextField(
                     value = name,
                     onValueChange = { name = it },
-                    label = { Text("名称") },
+                    label = { Text("名称 *") },
                     modifier = Modifier.fillMaxWidth(),
-                    singleLine = true
+                    singleLine = true,
+                    isError = name.isBlank()
                 )
                 
                 OutlinedTextField(
@@ -59,15 +60,17 @@ fun EditPasswordDialog(
                     onValueChange = { username = it },
                     label = { Text("用户名") },
                     modifier = Modifier.fillMaxWidth(),
-                    singleLine = true
+                    singleLine = true,
+                    placeholder = { Text("可选") }
                 )
                 
                 OutlinedTextField(
                     value = passwordText,
                     onValueChange = { passwordText = it },
-                    label = { Text("密码") },
+                    label = { Text("密码 *") },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
+                    isError = passwordText.isBlank(),
                     visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     trailingIcon = {
@@ -85,7 +88,8 @@ fun EditPasswordDialog(
                     onValueChange = { note = it },
                     label = { Text("备注") },
                     modifier = Modifier.fillMaxWidth(),
-                    maxLines = 3
+                    maxLines = 3,
+                    placeholder = { Text("可选") }
                 )
                 
                 Row(
@@ -98,18 +102,12 @@ fun EditPasswordDialog(
                     Spacer(modifier = Modifier.width(8.dp))
                     Button(
                         onClick = {
-                            if (name.isNotBlank() && username.isNotBlank() && passwordText.isNotBlank()) {
-                                val updatedPassword = password.copy(
-                                    name = name,
-                                    username = username,
-                                    password = passwordText,
-                                    note = note
-                                )
-                                onConfirm(updatedPassword)
+                            if (name.isNotBlank() && passwordText.isNotBlank()) {
+                                onConfirm(password.id, name, username, passwordText, note)
                                 onDismiss()
                             }
                         },
-                        enabled = name.isNotBlank() && username.isNotBlank() && passwordText.isNotBlank()
+                        enabled = name.isNotBlank() && passwordText.isNotBlank()
                     ) {
                         Text("保存")
                     }

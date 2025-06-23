@@ -47,9 +47,10 @@ fun AddPasswordDialog(
                 OutlinedTextField(
                     value = name,
                     onValueChange = { name = it },
-                    label = { Text("名称") },
+                    label = { Text("名称 *") },
                     modifier = Modifier.fillMaxWidth(),
-                    singleLine = true
+                    singleLine = true,
+                    isError = name.isBlank()
                 )
                 
                 OutlinedTextField(
@@ -57,15 +58,17 @@ fun AddPasswordDialog(
                     onValueChange = { username = it },
                     label = { Text("用户名") },
                     modifier = Modifier.fillMaxWidth(),
-                    singleLine = true
+                    singleLine = true,
+                    placeholder = { Text("可选") }
                 )
                 
                 OutlinedTextField(
                     value = password,
                     onValueChange = { password = it },
-                    label = { Text("密码") },
+                    label = { Text("密码 *") },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
+                    isError = password.isBlank(),
                     visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     trailingIcon = {
@@ -83,7 +86,8 @@ fun AddPasswordDialog(
                     onValueChange = { note = it },
                     label = { Text("备注") },
                     modifier = Modifier.fillMaxWidth(),
-                    maxLines = 3
+                    maxLines = 3,
+                    placeholder = { Text("可选") }
                 )
                 
                 Row(
@@ -96,12 +100,12 @@ fun AddPasswordDialog(
                     Spacer(modifier = Modifier.width(8.dp))
                     Button(
                         onClick = {
-                            if (name.isNotBlank() && username.isNotBlank() && password.isNotBlank()) {
+                            if (name.isNotBlank() && password.isNotBlank()) {
                                 onConfirm(name, username, password, note)
                                 onDismiss()
                             }
                         },
-                        enabled = name.isNotBlank() && username.isNotBlank() && password.isNotBlank()
+                        enabled = name.isNotBlank() && password.isNotBlank()
                     ) {
                         Text("添加")
                     }
